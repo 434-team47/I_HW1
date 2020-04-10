@@ -13,6 +13,14 @@ y_train = house_data.iloc[:, 13].values
 
 house_data.head()
 
+#Check for missing values in dataset 
+house_data.isnull().sum()
 
-#Heatmap plot
-sns.heatmap(house_data.corr())
+#Heat Map 
+correlation_house = house_data.corr().round(2)
+sns.heatmap(data=correlation_house, annot=True)
+
+#Distribution for Medv (Median value of owner-occupied homes in $1000s)
+sns.set(rc={'figure.figsize':(12,9)})
+sns.distplot(house_data['MEDV'], bins=30)
+plt.show()

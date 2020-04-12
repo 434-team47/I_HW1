@@ -5,7 +5,7 @@
 # Implements batch gradient descent for training a binary classifier via logistic regression
 #  with L2 regularization.
 
-import csv, sys, math
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -38,7 +38,7 @@ except:
 def normalize(array, m, n):
 	for k in range (0, m):
 		for i in range(0, n):
-			array[k, i] /= n
+			array[k, i] /= 255
 	
 	
 def batch_gradient_logbin_l2(trainArray, testArray, n, train_m, test_m, trainY, testY, lambda_i):
@@ -112,7 +112,7 @@ def batch_gradient_logbin_l2(trainArray, testArray, n, train_m, test_m, trainY, 
 		testY[k] = successes/test_m
 		
 		
-def plot_results(trainX, trainY, testX, testY):
+def plot_results(trainX, trainY, testX, testY, lambda_i):
 	
 	fig, ax = plt.subplots()
 	ax.plot(trainX, trainY, label = "Training")
@@ -120,7 +120,20 @@ def plot_results(trainX, trainY, testX, testY):
 	ax.legend()
 	plt.xlabel("Training Iterations")
 	plt.ylabel("Accuracy")
-	plt.title("Model Validation")
+	plt.title("Lambda = {}".format(lambda_i))
+	
+	plt.show()
+	
+	
+def plot_results2(lambdaArray, test_accuracyArray, train_accuracyArray):
+	
+	fig, ax = plt.subplots()
+	ax.plot(lambdaArray, test_accuracyArray, label="Test")
+	ax.plot(lambdaArray, train_accuracyArray, label="Train")
+	ax.legend()
+	plt.xlabel("Lambda")
+	plt.ylabel("Accuracy")
+	plt.title("Accuracy at {} Iterations".format(kmax))
 	
 	plt.show()
 
@@ -136,26 +149,36 @@ def main():
 	train_m = np.size(trainArray, 0) # training examples
 	test_m  = np.size(testArray,  0) # test cases
 	n = np.size(trainArray, 1)-1 # number of features
+	l = np.size(lambdaArray) # number of lambdas
 	
 	# Vectors for plotting/calculations
 	trainX = [x for x in range(kmax)]
 	trainY = np.zeros(kmax)
 	testX  = [x for x in range(kmax)]
 	testY  = np.zeros(kmax)	
+	test_accuracyArray = np.zeros(l)
+	train_accuracyArray = np.zeros(l)
 	
 	# Normalize features
 	normalize(trainArray, train_m, n)
 	normalize(testArray, test_m, n)
 	
+	i = 0
 	for lambda_i in lambdaArray:
-	
-		print(lambda_i)
 		
 		# Gradient Descent Loop
 		batch_gradient_logbin_l2(trainArray, testArray, n, train_m, test_m, trainY, testY, lambda_i)
+		
+		# Record accuracy at final iteration
+		test_accuracyArray[i] = testY[kmax-1]
+		train_accuracyArray[i] = trainY[kmax-1]
+		i += 1
 	
-		# Plot results
-		plot_results(trainX, trainY, testX, testY)
+		# Plot accuracy vs. training iterations
+		plot_results(trainX, trainY, testX, testY, lambda_i)
+		
+	# Plot accuracy vs. lambda
+	plot_results2(lambdaArray, test_accuracyArray, train_accuracyArray)
 
 
 if __name__ == "__main__":

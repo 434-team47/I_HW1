@@ -13,3 +13,11 @@ The file housingdesc.txt describes the data.
 * (2) a testing set housingtest.csv forevaluating the performance of the learned model.  
 
 This programs implements linear regression and exploresome variations with it on this data.
+
+## Usage Example
+To run the program, run these commands on your terminal:
+
+```sh
+python q1_2.py housing_train.csv housing_test.csv 
+python q1_3.py housing_train.csv housing_test.csv 
+```

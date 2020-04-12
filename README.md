@@ -15,9 +15,12 @@ The file housingdesc.txt describes the data.
 This programs implements linear regression and exploresome variations with it on this data.
 
 ## Usage Example
-To run the program, run these commands on your terminal:
+To run the program, run the commands as specified in the assignment document
 
-```sh
-python q1_2.py housing_train.csv housing_test.csv 
-python q1_3.py housing_train.csv housing_test.csv 
-```
+Ex: python q1_2.py housing_train.csv housing_test.csv
+
+## Requirements
+You will need to install the following packages:
+numpy
+matplotlib.pyplot
+pandas

@@ -22,4 +22,4 @@ class LineaRegression:
         '''Sum of squared error normalized by
         the total number of examples in the data '''
         total = total/len(self.data)
-        print(total[0,0])
+        return total[0,0]
